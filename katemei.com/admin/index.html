@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<header>
+	<title>Work In Progress</title>
+	<h1 class = "title">ACCENTED</h1>
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+</header>
+<body>
+	<script src="/lib/text-to-ipa.js"></script>
+  	<script src="/lib/converter-form.js"></script>
+  	<script src='js/p5.dom.js'></script>
+  	<script src='js/p5.js'></script>
+  	<script src='js/p5.sound.js'></script>
+  	<script src="js/script.js"></script>
+  	<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+	<div class = 'message'>
+		<textarea id="inputText" placeholder="Write here" rows="4" cols="50"></textarea>
+		<textarea readonly id="outputText" placeholder="Comes out here" rows="4" cols="50"></textarea>
+		<div id="nonIdentifiable"></div>
+	</div>
+	<script>
+		window.onload = TextToIPA.loadDict('lib/ipadict.txt');
+		document.onkeydown = function(event){
+    		var e = event || window.event || arguments.callee.caller.arguments[0];
+    		if (e && e.keyCode==13) {
+        		ConverterForm.convert('inputText','outputText','nonIdentifiable');
+        		var words = document.getElementById('inputText').value;
+        		responsiveVoice.speak(words,'US English Female');
+        	}
+    	}
+	</script>
+	
+</body>
+</html>

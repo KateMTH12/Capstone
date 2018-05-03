@@ -1,0 +1,27 @@
+@font-face {
+	font-family: Tinos;
+	src: url('../Tinos/Tinos-Bold.ttf');
+}
+@font-face{
+	font-family: BPreplay;
+	src: url('../BPreplay/BPreplay.otf');
+}
+body{
+	font-family: 'Tinos', Times, serif;
+}
+h1{
+	font-family: 'BPreplay';
+	font-size: 24;
+}
+#inputText{
+	font-family: 'Tinos', Times, serif;	
+}
+#outputText{
+	font-family: 'Tinos', Times, serif;	
+}
+#in{
+	font-family: 'Tinos', Times, serif;		
+}
+#out{
+	font-family: 'Tinos', Times, serif;		
+}

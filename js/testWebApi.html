@@ -1,0 +1,114 @@
+<!doctype html>
+<body>
+<script>
+const audioCtx = new AudioContext();
+var source;
+var stream;
+//Create audio source
+//Here, we use an audio file, but this could also be e.g. microphone input
+/*const audioEle = new Audio();
+audioEle.src = 'a.wav';//insert file name here
+audioEle.autoplay = true;
+audioEle.preload = 'auto';
+const audioSourceNode = audioCtx.createMediaElementSource(audioEle);
+*/
+const analyserNode = audioCtx.createAnalyser();
+
+if (navigator.getUserMedia) {
+   console.log('getUserMedia supported.');
+   navigator.getUserMedia (
+      // constraints - only audio needed for this app
+      {
+         audio: true
+      },
+
+      // Success callback
+      function(stream) {
+         source = audioCtx.createMediaStreamSource(stream);
+         source.connect(analyserNode);
+
+         //visualize();
+      },
+
+      // Error callback
+      function(err) {
+         console.log('The following gUM error occured: ' + err);
+      }
+   );
+} else {
+   console.log('getUserMedia not supported on your browser!');
+}
+
+//Create analyser node
+analyserNode.fftSize = 256;
+const bufferLength = analyserNode.frequencyBinCount;
+var dataArray = new Float32Array(bufferLength);
+var waveData = new Float32Array(analyserNode.fftSize);
+//Set up audio node network
+//audioSourceNode.connect(analyserNode);
+//analyserNode.connect(audioCtx.destination);
+
+//Create 2D canvas
+const canvas = document.createElement('canvas');
+canvas.style.position = 'absolute';
+canvas.style.top = 0;
+canvas.style.left = 0;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+document.body.appendChild(canvas);
+const canvasCtx = canvas.getContext('2d');
+canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+var max =0;
+console.log(bufferLength);
+console.log(analyserNode.fftSize);
+
+function draw() {
+  //Schedule next redraw loop part
+  requestAnimationFrame(draw);
+
+  //Get spectrum data
+  analyserNode.getFloatFrequencyData(dataArray);
+  analyserNode.getFloatTimeDomainData(waveData);
+  //analyserNode.getByteTimeDomainData(dataArray);
+  //Draw black background
+  canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+  canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+var eArray = dataArray.values();
+// your browser must support for..of loop
+// and let-scoped variables in for loops
+  //Draw spectrum
+  const barWidthW = (canvas.width / analyserNode.fftSize) * 2.5;
+  let posWX = 0;
+  for (let i = 0; i < analyserNode.fftSize; i++) {
+    const barHeightW = (waveData[i] * 1000);
+    canvasCtx.fillStyle = 'rgb(50,50,' + Math.floor(barHeightW + 200)+')';
+    canvasCtx.fillRect(posWX, canvas.height - barHeightW / 2, barWidthW, barHeightW / 2);
+    posWX += barWidthW + 1;
+    
+    
+  }
+  const barWidth = (canvas.width / bufferLength) * 2.5;
+  let posX = 0;
+  for (let i = 0; i < bufferLength; i++) {
+    const barHeight = ((dataArray[i] +140) * 2);
+
+    canvasCtx.fillStyle = 'rgb(' + Math.floor(barHeight + 100) + ', 50, 50)';
+    canvasCtx.fillRect(posX, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+    canvasCtx.fillStyle = 'rgb(50,' + Math.floor(barHeight + 100) + ', 50)';
+    canvasCtx.fillRect(posX, canvas.height - (barHeight / 2 * waveData[i*2]), barWidth, barHeight / 2);
+    posX += barWidth + 1;
+    if(dataArray[i] != -Infinity){
+      if(-1*dataArray[i]>max){
+      max = -1*dataArray[i];
+    }
+    } 
+    
+  }
+  //console.log(dataArray.values());
+};
+
+draw();
+</script>
+</body>

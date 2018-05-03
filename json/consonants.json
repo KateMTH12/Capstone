@@ -1,0 +1,19 @@
+{
+   "A":["place of articulation","stop","fricative","affricative","flap","nasal","lateral liquid","retroflex liquid","glide"],
+   "B":["bilabial","p","","","","","","",""],
+   "C":["bilabial v","b","","","","m","","","w"],
+   "D":["labiodental","","ɾ","","","","","",""],
+   "E":["labiodental v","","v","","","","","",""],
+   "F":["intedental","","θ","","","","","",""],
+   "G":["interdental v","","ð","","","","","",""],
+   "H":["alveolar","t","s","","","","","",""],
+   "I":["alveolar v","d","z","","","n","l","ɹ",""],
+   "J":["postalveolar","","","","","","","",""],
+   "K":["postalveolar v","","","","","","","",""],
+   "L":["palatal","","","","","","","",""],
+   "M":["palatal v","","","","","","","",""],
+   "N":["velar","k","","","","","","",""],
+   "O":["velar v","g","","","","ŋ","","",""],
+   "P":["glottal","ʔ","h","","","","","",""],
+   "Q":["glottal v","","","","","","","",""]
+}

@@ -1,0 +1,214 @@
+@font-face {
+	font-family: Tinos;
+	src: url('../Tinos/Tinos-Bold.ttf');
+}
+@font-face{
+	font-family: BPreplay;
+	src: url('../BPreplay/BPreplay.otf');
+}
+p{
+	font-family: 'BPreplay';
+	font-size: 2vh;
+}
+.links:hover { text-decoration: underline; color:white; }
+.links{
+	color: white;
+	text-decoration: none;
+}
+.sideLink:hover { text-decoration: underline; color:black; }
+.sideLink{
+	color: black;
+	text-decoration: none;	
+}
+#alteredM{
+	font-family: 'Tinos';
+}
+#alteredS{
+	font-family: 'Tinos';
+}
+body{
+	margin:0px;
+	font-family: 'BPreplay';
+	font-size: 100;
+	overflow-y: auto;
+}
+header{
+	margin: 0px;
+	padding:10px;
+	font-family: 'BPreplay';
+	color: white;
+	font-size: 3vh;
+	list-style-type: none;
+	background-color: #49599a;
+}
+ul{
+	list-style-type: none;
+}
+button{
+	margin: 10px;
+}
+#textM{
+	margin: 0 auto;
+	display:none;
+	text-align: center;
+}
+#title{
+	display: inline-block;
+	position: fixed;
+	text-align: left;
+}
+#inputText{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	border-bottom: 1px solid black;
+	display: block;
+	font-family: 'BPreplay', Arial, sans-serif;
+	bottom-border:2px;
+	text-align: center;
+}
+#selectorM{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	border-bottom: 1px solid black;
+	display: block;
+	font-family: 'BPreplay', Arial, sans-serif;
+	bottom-border:2px;
+	text-align: center;
+}
+#selectorS{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	border-bottom: 1px solid black;
+	display: block;
+	font-family: 'BPreplay', Arial, sans-serif;
+	bottom-border:2px;
+	text-align: center;
+}
+
+#speech{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	border-bottom: 1px solid black;
+	display: block;
+	font-family: 'BPreplay', Arial, sans-serif;
+	bottom-border:2px;
+	text-align: center;
+}
+#outputText{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	text-align: center;
+	display: block;
+	font-size: 3vh;
+	font-family: 'Tinos', Times, serif;	
+}
+#outputSpeech{
+	margin:0 auto;
+	resize: none;
+	outline: none;
+	border-style: none;
+	text-align: center;
+	display: block;
+	font-size: 3vh;
+	font-family: 'Tinos', Times, serif;	
+}
+#in{
+	font-family: 'Tinos', Times, serif;		
+}
+#out{
+	font-family: 'Tinos', Times, serif;		
+}
+#alter{
+	display:none;
+}
+#sideBar{
+	margin: 0;
+	height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #FFF;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 10px;
+    font-size: 3vh;
+    color: black;
+}
+#topNav{
+	position: fixed;
+	display:inline-block;
+	text-align: right;
+	right: 10px;
+}
+#overlay{
+	position: fixed;
+	width:100%;
+	height: 100%;
+	background-color: #FFF;
+	opacity: 1;
+}
+.page-content{
+	padding-top:30vh; 
+	padding:10px;
+	overflow: auto;
+}
+#close{
+	display: inline-block;
+}
+#ham{
+	display:inline-block;
+}
+#indicator{
+	animation-iteration-count:infinite;
+	display:inline-block;
+	animation-name: blinker;
+	animation-duration: 2s;
+}
+#top{
+	display: inline-block;
+}
+textarea::placeholder{
+	animation-iteration-count:infinite;
+	animation-name: blinker;
+	animation-duration: 2s;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#notRight{
+	display:none;
+}
+#intro{
+	display:none;
+}
+#speechM{
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+}
+#lets{
+	display:inline-block;
+}
+#lets:hover{
+	text-decoration: underline;
+}
+ol{
+	list-style-type: none;
+}
