@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<header>
+  <link rel = "stylesheet" type = "text/css" href = "css/ipaStyle.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Capstone</title>
+  <img id = "ham" src = "images/ham.png" onclick="sideNav()">
+    <span class="title" id>Calibrating Accents</span>
+    <div id = "topNav">   
+        <a class="links" href="index.html">Home</a>
+        <a class="links" href="ipa.html">IPA</a>
+        <a class="links" href="about.html">About</a>
+    </div>
+    <div id="sideBar">
+    <img id = "close" src = "images/close.png" onclick="closeNav()">
+
+    <ul>
+      <li><a class= "sideTitle">Calibrating Accents</a></li>
+        <li><a class="sideLink" href="index.html">Home</a></li>
+        <li><a class="sideLink" href="ipa.html">IPA</a></li>
+        <li><a class="sideLink" href="about.html">About</a></li>
+    </ul>
+  </div>
+</header>
+  <script type="text/javascript" src="html/mespeak.js"></script>
+  <script type="text/javascript">
+    meSpeak.loadConfig("html/mespeak_config.json");
+    meSpeak.loadVoice("html/en.json");
+  </script>
+
+  <body>
+    <div id = "overlay">
+    <div class="page-content">
+    <div id = "interact">
+    <textarea id="chineseIn" placeholder="请输入" rows="2" cols="50"></textarea>
+    <button id = "pinyin" onclick = "turnOn()">pinyin Translate</button>
+    <h1 id ="pinyinOut">Pinyin</h1>
+    <button id = "IPAC" onclick = "translater()">IPA Translate</button>
+    <h1 id = "ipaChinese">IPA</h1>
+    <button id="submit" onclick="process()">pronounce</button>
+    </div>
+    <p id = "words">The International Phonetic Alphabet(IPA) was invented to allow people to read and understand the pronunciation of any language regardless of whether or not they can read the written version of the language. Each character has a specific sound or phoneme associated with it. Different languages use different sets of the characters, but there are no overlaps and it can be used for any language.</p>
+    <p>For this reason the IPA is helpful in explaining how accents affect percepted speech.</p>
+    <p>These are the consonants of the American English set of the IPA.</p>
+    <img id = "con" src = "images/consonant.jpg">
+    <p>These are the consonants of the American English set of the IPA.</p>
+    <img id = "vow" src = "images/vowel.png">
+    </div>
+    </div>
+      <script>
+      var output;
+      function sideNav(){
+        document.getElementById("sideBar").style.width = "160px";
+
+        document.getElementById("overlay").style.opacity = ".2";
+      }
+      function closeNav(){
+        document.getElementById("sideBar").style.width = "0px";
+        document.getElementById("overlay").style.opacity = "1";
+      }
+      function turnOn(){
+      var chinese = document.getElementById("chineseIn").value;
+      var xhr = new XMLHttpRequest();
+      var p;
+      var pY = [];
+      xhr.open("GET", "https://helloacm.com/api/pinyin/?cached&s="+chinese+"&t=1", true);
+      xhr.onload = function (e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var arr = JSON.parse(xhr.responseText);
+              var len = arr.result.length;
+              for(var i = 0;i<len;i++){
+                var word = arr.result[i];
+                word = word.split(",",1);
+                word = word.toString().replace("1","");
+                word = word.toString().replace("2","");
+                word = word.toString().replace("3","");
+                word = word.toString().replace("4","");
+                word = word.toString().replace("5","");
+                console.log(word);
+                pY.push(word);
+                console.log(pY);
+              }
+              output = pY.join(" ")
+              document.getElementById("pinyinOut").innerHTML = output;
+            } else {
+                console.error(xhr.statusText);
+            }
+          }
+      };
+      xhr.onerror = function (e) {
+        console.error(xhr.statusText);
+      };
+      xhr.send(null);
+    }
+    function translater(){
+      var words = String(output);
+      console.log(words);
+      words = words.replace(/k/,"kʰ");
+      words = words.replace(/sh/,"x");
+      words = words.replace(/j/,"tɕ");
+      words = words.replace(/q/,"tɕʰ");
+      words = words.replace(/x/,"ɕ");
+      words = words.replace(/zh/,"tʂ");
+      words = words.replace(/ch/,"tʃ");
+      words = words.replace(/sh/,"ʂ");
+      words = words.replace(/r/,"ɹ");
+      words = words.replace(/z/,"ts");
+      words = words.replace(/c/,"tsʰ");
+
+      words = words.replace(/e/,"ɛ");
+      words = words.replace(/o/,"ɔ");
+      words = words.replace(/y/,"j");
+      words = words.replace(/o/,"ɔ");
+      words = words.replace(/e/,"ɛ");
+      words = words.replace(/ai/,"aɪ");
+      words = words.replace(/ei/,"eɪ");
+      words = words.replace(/ao/,"aʊ");
+      words = words.replace(/ou/,"ɔu");
+      words = words.replace(/an/,"an");
+      words = words.replace(/en/,"ən");
+      words = words.replace(/ang/,"aŋ");
+      words = words.replace(/eng/,"ʌŋ");
+      words = words.replace(/ie/,"iɛ");
+      words = words.replace(/iao/,"iaʊ");
+      words = words.replace(/iu/,"iɔu");
+      words = words.replace(/ian/,"iɛn");
+      words = words.replace(/iang/,"iaŋ");
+      words = words.replace(/ing/,"ɪŋ");
+      words = words.replace(/uo/,"uɔ");
+      words = words.replace(/ue/,"yɛ");
+      words = words.replace(/uai/,"uaɪ");
+      words = words.replace(/uang/,"uaŋ");
+      words = words.replace(/ong/,"ʊŋ");
+      words = words.replace(/iong/,"jŋ");
+      words = words.replace(/ü/,"y");
+      words = words.replace(/üe/,"yɛ");
+      words = words.replace(/ün/,"yn");
+      
+      console.log(words);
+      document.getElementById("ipaChinese").innerHTML = words;
+      p = words;
+    }  
+    function process() {
+        uipa = p;
+
+        // nothing to process      
+        if (uipa == null || uipa.length == 0) {
+          return;
+        }
+
+        //translate
+        var mappings = [
+          { 'src': /^\s*\//g, 'dest': '' },
+          { 'src': /\/\s*$/g, 'dest': '' },
+
+          { 'src': /(\.)/g, 'dest': '%' },
+          { 'src': /(\u02c8)/g, 'dest': '\'' },
+          { 'src': /(\u02cc)/g, 'dest': ',' },
+          { 'src': /(\u0251)/g, 'dest': 'A:' },
+          { 'src': /(\u02d0)/g, 'dest': ':' },
+          { 'src': /(\u0251\u02d0)/g, 'dest': 'A' },
+          { 'src': /(\u0251\u0279)/g, 'dest': 'A' },
+          { 'src': /(a\u02d0)/g, 'dest': 'A' },
+
+          // feedback from formantzero via r/linguistics
+          { 'src': /(\u0329)/g, 'dest': 'r' },  
+          
+          // feedback from scharfes_s via r/linguistics
+          { 'src': /(\u027e)/g, 'dest': 't' },  
+
+          { 'src': /(\xe6)/g, 'dest': 'a' },
+          { 'src': /(a)/g, 'dest': 'a' },
+          { 'src': /(\u028c)/g, 'dest': 'V' },
+          { 'src': /(\u0252)/g, 'dest': '0' },
+          { 'src': /(\u0254)/g, 'dest': '0' },
+          { 'src': /(a\u028a)/g, 'dest': 'aU' },
+          { 'src': /(\xe6\u0254)/g, 'dest': 'aU' },
+          { 'src': /(\u0259)/g, 'dest': '@' },
+          { 'src': /(\u025a)/g, 'dest': '3' },
+          { 'src': /(\u0259\u02d0)/g, 'dest': '3:' },
+          { 'src': /(a\u026a)/g, 'dest': 'aI' },
+          { 'src': /(\u028c\u026a)/g, 'dest': 'aI' },
+          { 'src': /(\u0251e)/g, 'dest': 'aI' },
+          { 'src': /(b)/g, 'dest': 'b' },
+          { 'src': /(t\u0283)/g, 'dest': 'tS' },
+          { 'src': /(\u02a7)/g, 'dest': 'tS' },
+          { 'src': /(d)/g, 'dest': 'd' },
+          { 'src': /(\xf0)/g, 'dest': 'D' },
+          { 'src': /(\u025b)/g, 'dest': 'E' },
+          { 'src': /(e)/g, 'dest': 'E' },
+          { 'src': /(\u025d)/g, 'dest': '3:' },
+          { 'src': /(\u025c\u02d0)/g, 'dest': '3:' },
+          { 'src': /(\u025b\u0259)/g, 'dest': 'e@' },
+          { 'src': /(e)/g, 'dest': 'E' },
+          { 'src': /(\u025d)/g, 'dest': '3:' },
+          { 'src': /(\u025c\u02d0)/g, 'dest': '3:' },
+          { 'src': /(e\u026a)/g, 'dest': 'eI' },
+          { 'src': /(\xe6\u026a)/g, 'dest': 'eI' },
+          { 'src': /(f)/g, 'dest': 'f' },
+          { 'src': /(\u0261)/g, 'dest': 'g' },
+          { 'src': /(g)/g, 'dest': 'g' },
+          { 'src': /(h)/g, 'dest': 'h' },
+          { 'src': /(\u026a)/g, 'dest': 'I' },
+          { 'src': /(\u0268)/g, 'dest': 'I' },
+          { 'src': /(\u026a\u0259)/g, 'dest': 'i@' },
+          { 'src': /(\u026a\u0279)/g, 'dest': 'i@' },
+          { 'src': /(\u026a\u0279\u0259)/g, 'dest': 'i@3' },
+          { 'src': /(i)/g, 'dest': 'i:' },
+          { 'src': /(i\u02d0)/g, 'dest': 'i:' },
+          { 'src': /(d\u0292)/g, 'dest': 'dZ' },
+          { 'src': /(\u02a4)/g, 'dest': 'dZ' },
+          { 'src': /(k)/g, 'dest': 'k' },
+          { 'src': /(x)/g, 'dest': 'x' },
+          { 'src': /(l)/g, 'dest': 'l' },
+          { 'src': /(d\u026b)/g, 'dest': 'l' }, 
+          { 'src': /(m)/g, 'dest': 'm' },
+          { 'src': /(n)/g, 'dest': 'n' },
+          { 'src': /(\u014b)/g, 'dest': 'N' },
+          { 'src': /(\u0259\u028a)/g, 'dest': 'oU' },
+          { 'src': /(o)/g, 'dest': 'oU' },
+          { 'src': /(o\u028a)/g, 'dest': 'oU' },
+          { 'src': /(\u0259\u0289)/g, 'dest': 'V' },
+          { 'src': /(\u0254\u026a)/g, 'dest': 'OI' },
+          { 'src': /(o\u026a)/g, 'dest': 'OI' },
+          { 'src': /(p)/g, 'dest': 'p' },
+          { 'src': /(\u0279)/g, 'dest': 'r' },
+          { 'src': /(s)/g, 'dest': 's' },
+          { 'src': /(\u0283)/g, 'dest': 'S' },
+          { 'src': /(t)/g, 'dest': 't' },
+          { 'src': /(\u027e)/g, 'dest': 't' },
+          { 'src': /(\u03b8)/g, 'dest': 'T' },
+          { 'src': /(\u028a\u0259)/g, 'dest': 'U@' },
+          { 'src': /(\u028a\u0279)/g, 'dest': 'U@' },
+          { 'src': /(\u028a)/g, 'dest': 'U' },
+          { 'src': /(\u0289\u02d0)/g, 'dest': 'u:' },
+          { 'src': /(u\u02d0)/g, 'dest': 'u:' },
+          { 'src': /(u)/g, 'dest': 'u:' },
+          { 'src': /(\u0254\u02d0)/g, 'dest': 'O:' },
+          { 'src': /(o\u02d0)/g, 'dest': 'O:' },
+          { 'src': /(v)/g, 'dest': 'v' },
+          { 'src': /(w)/g, 'dest': 'w' },
+          { 'src': /(\u028d)/g, 'dest': 'w' },
+          { 'src': /(j)/g, 'dest': 'j' },
+          { 'src': /(z)/g, 'dest': 'z' },
+          { 'src': /(\u0292)/g, 'dest': 'Z' },
+          { 'src': /(\u0294)/g, 'dest': '?' },
+          
+          // special edits
+          { 'src': /(k\'a2n)/g, 'dest': 'k\'@n' },
+          { 'src': /(ka2n)/g, 'dest': 'k@n' },
+          { 'src': /(gg)/g, 'dest': 'g' },
+          { 'src': /(@U)/g, 'dest': 'oU' },
+          { 'src': /rr$/g, 'dest': 'r' },
+          { 'src': /3r$/g, 'dest': '3:' },
+          { 'src': /([iU]|([AO]:))@r$/g, 'dest': '$1@' },
+          { 'src': /([^e])@r/g, 'dest': '$1:3' },
+          { 'src': /e@r$/g, 'dest': 'e@' },
+          { 'src': /e@r([bdDfghklmnNprsStTvwjzZ])/g, 'dest': 'e@$1' },
+
+          // edits arising from testing
+          { 'src': /(\'k)+/g, 'dest': 'k\'' },  
+          { 'src': /(\ː)+/g, 'dest': ':' },
+          { 'src': /(\:)+/g, 'dest': ':' },      
+          { 'src': /(ᵻ)/g, 'dest': 'I' },
+          { 'src': /(ɜ)/g, 'dest': '3' },  
+          { 'src': /(ɔ)/g, 'dest': 'O' },  
+
+          // feedback from formantzero via r/linguistics
+          { 'src': /\u0361(.)/g, 'dest': '$1\'' },  
+          { 'src': /3$/g, 'dest': 'R' }
+        ];
+
+        for (var i = 0; i < mappings.length; i++) {
+          uipa = uipa.replace(mappings[i].src, mappings[i].dest);
+          //console.log(mappings[i].src + uipa);
+        }
+        console.log(uipa);
+        spoken = meSpeak.speak('[['+uipa+']]', { 'rawdata': 'mime' });
+        if (spoken == null) {
+          alert("An error occurred: speaking failed.");
+        }
+        meSpeak.play(spoken);
+      }
+  </script>  
+  <!--script src="js/script.js"><-/script-->
+  <!--http://longmanhomeusa.com/blog/how-the-international-phonetic-alphabet-can-help-us-teach-pronunciation/
+    https://en.wikipedia.org/wiki/File:IPA_vowel_chart_2005.png-->
+</div>
+</body>
+</html>

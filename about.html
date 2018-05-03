@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<header>
+  <link rel = "stylesheet" type = "text/css" href = "css/aboutStyle.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Capstone</title>
+  <img id = "ham" src = "images/ham.png" onclick="sideNav()">
+    <span class="title" id>Calibrating Accents</span>
+    <div id = "topNav">   
+        <a class="links" href="index.html">Home</a>
+        <a class="links" href="ipa.html">IPA</a>
+        <a class="links" href="about.html">About</a>
+    </div>
+    <div id="sideBar">
+    <img id = "close" src = "images/close.png" onclick="closeNav()">
+
+    <ul>
+      <li><a class= "sideTitle">Calibrating Accents</a></li>
+        <li><a class="sideLink" href="index.html">Home</a></li>
+        <li><a class="sideLink" href="ipa.html">IPA</a></li>
+        <li><a class="sideLink" href="about.html">About</a></li>
+    </ul>
+  </div>
+</header>
+  
+
+  <body>
+    <script src='js/p5.dom.js'></script>
+    <script src='js/p5.js'></script>
+    <script src='js/p5.sound.js'></script>
+    <script src="js/script.js"></script>
+    <div id = "overlay">
+    <div class="page-content">
+    </div>
+    <p>This project is meant to allow users to explore and understand what an accent is. Despite what you may think everyone has an accent so there is no reason to make assumptions about people based on them. They are a naturally occuring phenomenon that is the product of your individual language experiences.</p>
+    <p>I hope this project will allow people to start to thinking about how accents affect how things sound so they can unpack others speech easier and to remind people that having an accent does not make anyone fundamentally different.</p>
+    <p id = "oscilloscope"></p>
+    </div>  
+    <script>
+    function sideNav(){
+      document.getElementById("sideBar").style.width = "160px";
+
+      document.getElementById("overlay").style.opacity = ".2";
+    }
+    function closeNav(){
+      document.getElementById("sideBar").style.width = "0px";
+      document.getElementById("overlay").style.opacity = "1";
+
+    }
+  </script>
+  <!--http://longmanhomeusa.com/blog/how-the-international-phonetic-alphabet-can-help-us-teach-pronunciation/
+    https://en.wikipedia.org/wiki/File:IPA_vowel_chart_2005.png-->
+</div>
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<link rel = "stylesheet" type = "text/css" href = "css/style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Capstone</title>
+	<img id = "ham" src = "images/ham.png" onclick="sideNav()">
+    <span class="title" id>Calibrating Accents</span>
+    <div id = "topNav"> 	
+        <a class="links" href="">Home</a>
+        <a class="links" href="ipa.html">IPA</a>
+        <a class="links" href="about.html">About</a>
+        <a class="links" href="js/testWebApi.html">Test</a>
+        <a class="links" href="spectrogram-master/spec.html">Test2</a>
+    </div>
+    <div id="sideBar">
+   	<img id = "close" src = "images/close.png" onclick="closeNav()">
+
+    <ul>
+    	<li><a class= "sideTitle">Calibrating Accents</a></li>
+      	<li><a class="sideLink" href="">Home</a></li>
+        <li><a class="sideLink" href="ipa.html">IPA</a></li>
+        <li><a class="sideLink" href="about.html">About</a></li>
+    </ul>
+  </div>
+</header>
+  <script type="text/javascript" src="html/mespeak.js"></script>
+  <script type="text/javascript">
+    meSpeak.loadConfig("html/mespeak_config.json");
+    meSpeak.loadVoice("html/en.json");
+  </script>
+
+  <body>
+  	<div id = "overlay">
+    <div class="page-content">
+   
+	<script src="/lib/text-to-ipa.js"></script>
+  	<script src="/lib/converter-form.js"></script>
+  	
+  	<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+  	<script src="js/annyang.js"></script>
+  	<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<div id = "textM">
+		<p id = "top">Accents are</p>
+		<p id = "indicator">|</p>
+		<textarea id="inputText" placeholder="Text" rows="1" cols="50"></textarea>
+		<button id = "translate" onclick = "trans('e')">Translate</button>
+		<div id = "pickLanguage" onclick="pickLet(event)">
+			<p id = "lets">A</p>
+			<p id = "lets">B</p>
+			<p id = "lets">C</p>
+			<p id = "lets">D</p>
+			<p id = "lets">E</p>
+			<p id = "lets">F</p>
+			<p id = "lets">G</p>
+			<p id = "lets">H</p>
+			<p id = "lets">I</p>
+			<p id = "lets">J</p>
+			<p id = "lets">K</p>
+			<p id = "lets">L</p>
+			<p id = "lets">M</p>
+			<p id = "lets">N</p>
+			<p id = "lets">O</p>
+			<p id = "lets">P</p>
+			<p id = "lets">Q</p>
+			<p id = "lets">R</p>
+			<p id = "lets">S</p>
+			<p id = "lets">T</p>
+			<p id = "lets">U</p>
+			<p id = "lets">V</p>
+			<p id = "lets">W</p>
+			<p id = "lets">Y</p>
+			<p id = "lets">Z</p>
+		</div>
+		<div id = "langOptM" onclick = "finalPick(event)"></div>
+		<p>IPA Spelling:</p>
+		<textarea readonly id="outputText" rows="1" cols="50"></textarea>
+
+		<h1 id = "selectedM">Language Selected</h1>
+		<h1 id = "alteredM">Accented Text</h1>
+		<button id="submit" onclick="process()">pronounce</button>
+  	</div>
+  	<div id = "speechM">
+		<p id = "top">Accents are..</p>
+		<p id = "indicator">.</p>
+		<textarea id="speech" readonly placeholder="Speak" rows="1" cols="50"></textarea>
+		<button id = "translate" onclick = "trans('e')">Translate</button>
+		<div id = "pickLanguage" onclick="pickLet(event)">
+			<p id = "lets">A</p>
+			<p id = "lets">B</p>
+			<p id = "lets">C</p>
+			<p id = "lets">D</p>
+			<p id = "lets">E</p>
+			<p id = "lets">F</p>
+			<p id = "lets">G</p>
+			<p id = "lets">H</p>
+			<p id = "lets">I</p>
+			<p id = "lets">J</p>
+			<p id = "lets">K</p>
+			<p id = "lets">L</p>
+			<p id = "lets">M</p>
+			<p id = "lets">N</p>
+			<p id = "lets">O</p>
+			<p id = "lets">P</p>
+			<p id = "lets">Q</p>
+			<p id = "lets">R</p>
+			<p id = "lets">S</p>
+			<p id = "lets">T</p>
+			<p id = "lets">U</p>
+			<p id = "lets">V</p>
+			<p id = "lets">W</p>
+			<p id = "lets">Y</p>
+			<p id = "lets">Z</p>
+		</div>
+		<div id = "langOptS" onclick = "finalPick(event)"></div>
+		<p>IPA Spelling:</p>
+		<textarea readonly id="outputSpeech" rows="1" cols="50"></textarea>
+
+		<h1 id = "selectedS">Language Selected</h1>
+		<h1 id = "alteredS">Accented Text</h1>
+		<button id="submit" onclick="process()">pronounce</button>
+  	</div>
+  	<div id = "intro">
+  		<p>The International Phonetic Alphabet(IPA) is a set of characters that can be used to write any language and allow the reader to have more accurate pronunciation regardless of if they know the language.</p>
+  		<p>IDIOLECT: def. Your personal accent, different than anyone elses shaped by your own language experience</p>
+	</div>	
+	<div>
+		<button id = "onOff" onclick = "begin()">Voice: OFF</button>
+		<button id = "notRight" onclick="alt()">Not what I said</button>
+		<p id = "alter" onclick = "chooseAlt(event)"></p>
+		<p id = "nonIdentifiable"></p>
+		<div>
+		</div>
+	</div>
+	</div>
+	<script>
+		var count = 0;
+		var countries = [];
+		var wordsIn;
+		var spoken;
+		console.log(count);
+		var altW = [];
+		var outWord;
+		var letter = "";
+		var languageS = "";
+		var indexS = 0;
+		if(count == 0){
+			if(annyang){
+			annyang.start({ autoRestart: true, continuous: false });
+			annyang.addCallback('result', function(phrases) {
+					document.getElementById('speech').innerHTML = phrases[0];
+					document.getElementById("alter").innerHTML = phrases;
+					altW = phrases;
+			});
+			}
+			document.getElementById("onOff").innerHTML = "Voice: OFF";
+			document.getElementById("textM").style.display = "none";
+			document.getElementById("notRight").style.display = "block";
+			document.getElementById("speechM").style.display = "block";
+			document.getElementById("inputText").innerHTML = '';
+			document.getElementById("outputText").innerHTML = '';
+			document.getElementById("alteredS").innerHTML = '';
+			document.getElementById("selectedS").innerHTML = '';
+		}
+		function begin(){
+			if(annyang){
+				annyang.start({ autoRestart: true, continuous: false });
+				annyang.addCallback('result', function(phrases) {
+					document.getElementById('speech').innerHTML = phrases[0];
+					document.getElementById("alter").innerHTML = phrases;
+					altW = phrases;
+				});
+			}
+			document.getElementById("alter").style.display = "none";
+    		if(count%2==1){
+				annyang.start({ autoRestart: true, continuous: false });
+				document.getElementById("onOff").innerHTML = "Voice: OFF";
+				document.getElementById("textM").style.display = "none";
+				document.getElementById("notRight").style.display = "block";
+				document.getElementById("speechM").style.display = "block";
+				document.getElementById("inputText").innerHTML = '';
+				document.getElementById("outputText").innerHTML = '';
+				document.getElementById("alteredS").innerHTML = '';
+				document.getElementById("selectedS").innerHTML = '';
+	        }else{
+	        	annyang.pause();
+	        	document.getElementById("onOff").innerHTML = "Voice: ON";
+				document.getElementById("textM").style.display = "block";
+				document.getElementById("notRight").style.display = "none";
+				document.getElementById("speechM").style.display = "none";
+				document.getElementById("speech").innerHTML = '';
+				document.getElementById("outputSpeech").innerHTML = '';
+				document.getElementById("alteredM").innerHTML = '';
+				document.getElementById("selectedM").innerHTML = '';
+	        }
+	        count ++;
+	        console.log(count);
+	    }
+	    var strA = "<ul>";
+    	function alt(){
+    		altW.forEach(function(element){
+    			strA += '<li>'+ element + '</li>';
+    		}); 
+    		strA += "</ul>"
+       		document.getElementById("alter").innerHTML = strA;
+       		document.getElementById("alter").style.display = "block";
+		}
+		function chooseAlt(event){
+			var target = event.target;
+			letter = String(event.target.innerHTML);
+
+       		document.getElementById("speech").innerHTML = letter;
+		}
+		function trans(){
+			if(count%2 == 1){
+				ConverterForm.convert('inputText','outputText','nonIdentifiable');
+	        	var words = document.getElementById('inputText').value;
+	        	wordsIn = document.getElementById("outputText").value.toString();;
+		    }else{
+		    	ConverterForm.convert('speech','outputSpeech','nonIdentifiable');
+		        var words = document.getElementById('speech').value;
+				wordsIn = document.getElementById("outputSpeech").value.toString();
+		    }
+	        
+	        responsiveVoice.speak(words,'US English Male');
+	        document.getElementById("top").innerHTML = "Try some other words: ";
+	        document.getElementById("alter").style.display = "none";
+	        document.getElementById("intro").style.display = "block";
+		}
+		function sideNav(){
+			document.getElementById("sideBar").style.width = "20vh";
+			document.getElementById("overlay").style.opacity = ".2";
+		}
+		function closeNav(){
+			document.getElementById("sideBar").style.width = "0px";
+			document.getElementById("overlay").style.opacity = "1";
+		}
+		function pickLet(event){
+			var target = event.target;
+			letter = event.target.innerHTML;
+			console.log(event.target.innerHTML);
+			pickLang();
+		}
+		function finalPick(event){
+			var target = event.target;
+			languageS = event.target.innerHTML;
+			if(count%2 == 1){
+	    		document.getElementById("selectedM").innerHTML = languageS;
+	   		}else{
+	    		document.getElementById("selectedS").innerHTML = languageS;
+			}
+			var li = event.target, i = 0;
+    		
+		    while ( li.previousElementSibling ) {
+		        li = li.previousElementSibling;
+		        i += 1;   
+		    }
+		    indexS = i;
+		    alterText();
+		}
+
+		function pickLang(){
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "./json/"+letter+".json", true);
+			xhr.onload = function (e) {
+				if (xhr.readyState === 4) {
+	    			if (xhr.status === 200) {
+	    				var arr1 = JSON.parse(xhr.responseText);
+	    				var n = Object.keys(arr1);
+	    				n = n.length;
+	    				var str = "<ul>";
+						for(var j = 0;j<n;j++){
+							console.log("hit");
+							str += '<li>'+ String(arr1[j][0]) + '</li>';
+    					}
+    					str += "</ul>";
+    					if(count%2 == 1){
+	    					document.getElementById("langOptM").innerHTML = str;
+	   					}else{
+	    					document.getElementById("langOptS").innerHTML = str;
+						}
+	   	    		}
+	  			}
+			};
+			xhr.onerror = function (e) {
+  			console.error(xhr.statusText);
+			};
+			xhr.send(null);
+		}
+		function alterText(){
+			wordsIn = String(wordsIn);
+
+			var newWord = wordsIn;
+			var xhr2 = new XMLHttpRequest();
+			xhr2.open("GET", "./json/"+letter+".json", true);
+			xhr2.onload = function (e) {
+				if (xhr2.readyState === 4) {
+	    			if (xhr2.status === 200) {
+	    				var arr = JSON.parse(xhr2.responseText);
+	    				var len = arr[indexS].length;
+	    				for(var k = 0;k<len;k++){
+	    					if(arr[indexS][k] == 1){
+	    						switch(k){
+	    							case 1:
+	    								//$ end
+	    								//. for anything that doesnt start the line
+	    								//| or
+	    								newWord = newWord.replace(/b$/,"p");
+	    								newWord = newWord.replace(/d$/,"t");
+	    								newWord = newWord.replace(/g$/,"k");
+	    								newWord = newWord.replace(/v$/,"f");
+	    								newWord = newWord.replace(/ð$/,"θ");
+	    								newWord = newWord.replace(/z$/,"s");
+	    								newWord = newWord.replace(/ʒ$/,"ʃ");
+	    								console.log(newWord);
+	    							break;
+
+	    							case 2:
+	    								newWord = newWord.replace(/θ/,"ɾ");
+	    								newWord = newWord.replace(/ð/,"v");
+									break;
+
+	    							case 3:
+	    								newWord = newWord.replace("ʰ","");
+	    							break;
+
+	    							case 4:
+										newWord = newWord.replace("p","b");
+	    								newWord = newWord.replace("t","d");
+	    								newWord = newWord.replace("k","g");
+	    								newWord = newWord.replace("f","v");
+	    								newWord = newWord.replace("θ","ð");
+	    								newWord = newWord.replace("s","z");
+	    								newWord = newWord.replace("ʃ","ʒ");
+	    								newWord = newWord.replace("w̥","w");
+	    							break;
+
+	    							case 5:
+		    							newWord = newWord.replace("θ","t");
+		    							newWord = newWord.replace("θ","s");
+		    							newWord = newWord.replace("θ","f");
+		    							newWord = newWord.replace("ð","d");
+		    							newWord = newWord.replace("ð","z");
+		    							newWord = newWord.replace("ð","v");
+	    							break;
+
+	    							case 6:
+	    								newWord = newWord.replace("r","rʷ");
+	    							break;
+
+	    							case 7:
+	    								newWord = newWord.replace("h","x");
+	    							break;
+
+	    							case 8:
+	    								newWord = newWord.replace("",String.fromCharCode(810));
+	    							break;
+	    							
+	    							case 9:
+	    								newWord = newWord.replace("ɾ","r");
+	    							break;
+
+	    							case 10:
+		    							newWord = newWord.replace("θ","s");
+		    							newWord = newWord.replace("ð","z");
+	    							break;
+
+	    							case 11:
+	    								newWord = newWord.replace("d","ɖ");
+		    							newWord = newWord.replace("l","ɭ");
+		    							newWord = newWord.replace("n","ɳ");
+		    							newWord = newWord.replace("","ɻ");
+		    							newWord = newWord.replace("","ɽ");
+		    							newWord = newWord.replace("s","ʂ");
+		    							newWord = newWord.replace("t","ʈ");
+		    							newWord = newWord.replace("z","ʐ");
+	    							break;
+
+	    							case 12:
+	    								newWord = newWord.replace("","ʲ");
+	    							break;
+
+	    							case 13:
+	    								newWord = newWord.replace("tʃ","s");
+	    								newWord = newWord.replace("dʒ","z");
+	    							break;
+	    							
+	    							case 14:
+	    								newWord = newWord.replace("w","v");
+	    							break;
+	    							
+	    							case 15:
+	    								newWord = newWord.replace("ɹ","ɾ");
+	    							break;
+	    							
+	    							case 16:
+										newWord = newWord.replace("ɹ","ʁ");
+	    							break;
+	    							
+	    							case 17:
+	    								newWord = newWord.replace("p","ɸ");
+	    								newWord = newWord.replace("b","β");
+	    								newWord = newWord.replace("t","s");
+	    								newWord = newWord.replace("d","z");
+	    								newWord = newWord.replace("k","x");
+	    								newWord = newWord.replace("g","ɣ");
+	    								newWord = newWord.replace("f","v");
+	    								newWord = newWord.replace("ʔ","h");
+	    							break;
+	    							
+	    							case 18:
+	    								newWord = newWord.replace("ŋ","n");
+									break;
+	    							
+	    							case 19:
+	    								newWord = newWord.replace("",String.fromCharCode(774));
+	    							break;
+	    							
+	    							case 20:
+										newWord = newWord.replace("æ","ɛ");
+	    								newWord = newWord.replace("ɛ","e");
+	    								newWord = newWord.replace("ɪ","i");
+	    								newWord = newWord.replace("ɑ","ɔ");
+	    								newWord = newWord.replace("ɔ","o");
+	    								newWord = newWord.replace("ʌ","ʊ");
+	    								newWord = newWord.replace("æ","ʌ");
+	    							break;
+	    							
+	    							case 21:
+	    								newWord = newWord.replace("æ","a");
+	    								newWord = newWord.replace("i","ɪ");
+	    								newWord = newWord.replace("u","ʊ");
+	    								newWord = newWord.replace("o","ɔ");
+	    							break;
+	    							
+	    							case 22:		
+	    								newWord = newWord.replace("ɔ","ʌ");
+	    								newWord = newWord.replace("ə","i");
+	    								newWord = newWord.replace("a","ə");
+	    								newWord = newWord.replace("ɛ","ʌ");
+	    								newWord = newWord.replace("u","ʊ");
+	    								newWord = newWord.replace("ɑ","ɔ");
+	    								newWord = newWord.replace("ə","æ");
+	    								newWord = newWord.replace("ə","u");
+	    							break;
+	    							
+	    							case 23:							
+	    								newWord = newWord.replace("i","ə");
+	    								newWord = newWord.replace("ɛ","ɪ");
+	    								newWord = newWord.replace("ə","ʌ");
+	    								newWord = newWord.replace("æ","a");
+	    								newWord = newWord.replace("ɪ","i");
+	    								newWord = newWord.replace("ə","i");
+	    								newWord = newWord.replace("ə","ɔ");
+	    								newWord = newWord.replace("eɪ","e");
+	    								newWord = newWord.replace("aɪ","eɪ");
+	    								newWord = newWord.replace("ə","u");
+	    								newWord = newWord.replace("ə","æ");
+	    								newWord = newWord.replace("eɪ","æ");
+	    							break;
+	    							
+	    							case 24:
+	    								newWord = newWord.replace("ɔ","ɑ");
+	    								newWord = newWord.replace("æ","ɑ");
+	    								newWord = newWord.replace("ə","eɪ");
+	    								newWord = newWord.replace("ə","æ");
+	    								newWord = newWord.replace("ə","u");
+	    							break;
+	    							
+	    							case 25:
+	    							break;
+	    							
+	    							case 26:
+	    								newWord = newWord.replace("l","");
+	    								newWord = newWord.replace("ɹ","");
+	    							break;
+	    							
+	    							case 27:
+	    							break;
+	    							
+	    							case 28:
+	    							break;
+
+	    							case 29:
+	    							break;
+	    						}	    						
+	    					}
+	    				}	    				
+	     			}
+	  			}
+	  			outWord = newWord;
+	  			if(count%2 == 1){
+				document.getElementById("alteredM").innerHTML = outWord;
+			}else{
+				document.getElementById("alteredS").innerHTML = outWord;				
+			}
+			};
+			
+			console.log(outWord);
+			
+			xhr2.onerror = function (e) {
+  	 			console.error(xhr2.statusText);
+			};
+			xhr2.send(null);	
+		}
+		function process() {
+			console.log(outWord);
+	    	uipa = outWord;
+
+	    	// nothing to process      
+	    	if (uipa == null || uipa.length == 0) {
+	        	return;
+	     	}
+
+	      //translate
+	      var mappings = [
+	        { 'src': /^\s*\//g, 'dest': '' },
+	        { 'src': /\/\s*$/g, 'dest': '' },
+
+	        { 'src': /(\.)/g, 'dest': '%' },
+	        { 'src': /(\u02c8)/g, 'dest': '\'' },
+	        { 'src': /(\u02cc)/g, 'dest': ',' },
+	        { 'src': /(\u0251)/g, 'dest': 'A:' },
+	        { 'src': /(\u02d0)/g, 'dest': ':' },
+	        { 'src': /(\u0251\u02d0)/g, 'dest': 'A' },
+	        { 'src': /(\u0251\u0279)/g, 'dest': 'A' },
+	        { 'src': /(a\u02d0)/g, 'dest': 'A' },
+
+	        // feedback from formantzero via r/linguistics
+	        { 'src': /(\u0329)/g, 'dest': 'r' },  
+	        
+	        // feedback from scharfes_s via r/linguistics
+	        { 'src': /(\u027e)/g, 'dest': 't' },  
+
+	        { 'src': /(\xe6)/g, 'dest': 'a' },
+	        { 'src': /(a)/g, 'dest': 'a' },
+	        { 'src': /(\u028c)/g, 'dest': 'V' },
+	        { 'src': /(\u0252)/g, 'dest': '0' },
+	        { 'src': /(\u0254)/g, 'dest': '0' },
+	        { 'src': /(a\u028a)/g, 'dest': 'aU' },
+	        { 'src': /(\xe6\u0254)/g, 'dest': 'aU' },
+	        { 'src': /(\u0259)/g, 'dest': '@' },
+	        { 'src': /(\u025a)/g, 'dest': '3' },
+	        { 'src': /(\u0259\u02d0)/g, 'dest': '3:' },
+	        { 'src': /(a\u026a)/g, 'dest': 'aI' },
+	        { 'src': /(\u028c\u026a)/g, 'dest': 'aI' },
+	        { 'src': /(\u0251e)/g, 'dest': 'aI' },
+	        { 'src': /(b)/g, 'dest': 'b' },
+	        { 'src': /(t\u0283)/g, 'dest': 'tS' },
+	        { 'src': /(\u02a7)/g, 'dest': 'tS' },
+	        { 'src': /(d)/g, 'dest': 'd' },
+	        { 'src': /(\xf0)/g, 'dest': 'D' },
+	        { 'src': /(\u025b)/g, 'dest': 'E' },
+	        { 'src': /(e)/g, 'dest': 'E' },
+	        { 'src': /(\u025d)/g, 'dest': '3:' },
+	        { 'src': /(\u025c\u02d0)/g, 'dest': '3:' },
+	        { 'src': /(\u025b\u0259)/g, 'dest': 'e@' },
+	        { 'src': /(e)/g, 'dest': 'E' },
+	        { 'src': /(\u025d)/g, 'dest': '3:' },
+	        { 'src': /(\u025c\u02d0)/g, 'dest': '3:' },
+	        { 'src': /(e\u026a)/g, 'dest': 'eI' },
+	        { 'src': /(\xe6\u026a)/g, 'dest': 'eI' },
+	        { 'src': /(f)/g, 'dest': 'f' },
+	        { 'src': /(\u0261)/g, 'dest': 'g' },
+	        { 'src': /(g)/g, 'dest': 'g' },
+	        { 'src': /(h)/g, 'dest': 'h' },
+	        { 'src': /(\u026a)/g, 'dest': 'I' },
+	        { 'src': /(\u0268)/g, 'dest': 'I' },
+	        { 'src': /(\u026a\u0259)/g, 'dest': 'i@' },
+	        { 'src': /(\u026a\u0279)/g, 'dest': 'i@' },
+	        { 'src': /(\u026a\u0279\u0259)/g, 'dest': 'i@3' },
+	        { 'src': /(i)/g, 'dest': 'i:' },
+	        { 'src': /(i\u02d0)/g, 'dest': 'i:' },
+	        { 'src': /(d\u0292)/g, 'dest': 'dZ' },
+	        { 'src': /(\u02a4)/g, 'dest': 'dZ' },
+	        { 'src': /(k)/g, 'dest': 'k' },
+	        { 'src': /(x)/g, 'dest': 'x' },
+	        { 'src': /(l)/g, 'dest': 'l' },
+	        { 'src': /(d\u026b)/g, 'dest': 'l' }, 
+	        { 'src': /(m)/g, 'dest': 'm' },
+	        { 'src': /(n)/g, 'dest': 'n' },
+	        { 'src': /(\u014b)/g, 'dest': 'N' },
+	        { 'src': /(\u0259\u028a)/g, 'dest': 'oU' },
+	        { 'src': /(o)/g, 'dest': 'oU' },
+	        { 'src': /(o\u028a)/g, 'dest': 'oU' },
+	        { 'src': /(\u0259\u0289)/g, 'dest': 'V' },
+	        { 'src': /(\u0254\u026a)/g, 'dest': 'OI' },
+	        { 'src': /(o\u026a)/g, 'dest': 'OI' },
+	        { 'src': /(p)/g, 'dest': 'p' },
+	        { 'src': /(\u0279)/g, 'dest': 'r' },
+	        { 'src': /(s)/g, 'dest': 's' },
+	        { 'src': /(\u0283)/g, 'dest': 'S' },
+	        { 'src': /(t)/g, 'dest': 't' },
+	        { 'src': /(\u027e)/g, 'dest': 't' },
+	        { 'src': /(\u03b8)/g, 'dest': 'T' },
+	        { 'src': /(\u028a\u0259)/g, 'dest': 'U@' },
+	        { 'src': /(\u028a\u0279)/g, 'dest': 'U@' },
+	        { 'src': /(\u028a)/g, 'dest': 'U' },
+	        { 'src': /(\u0289\u02d0)/g, 'dest': 'u:' },
+	        { 'src': /(u\u02d0)/g, 'dest': 'u:' },
+	        { 'src': /(u)/g, 'dest': 'u:' },
+	        { 'src': /(\u0254\u02d0)/g, 'dest': 'O:' },
+	        { 'src': /(o\u02d0)/g, 'dest': 'O:' },
+	        { 'src': /(v)/g, 'dest': 'v' },
+	        { 'src': /(w)/g, 'dest': 'w' },
+	        { 'src': /(\u028d)/g, 'dest': 'w' },
+	        { 'src': /(j)/g, 'dest': 'j' },
+	        { 'src': /(z)/g, 'dest': 'z' },
+	        { 'src': /(\u0292)/g, 'dest': 'Z' },
+	        { 'src': /(\u0294)/g, 'dest': '?' },
+	        
+	        // special edits
+	        { 'src': /(k\'a2n)/g, 'dest': 'k\'@n' },
+	        { 'src': /(ka2n)/g, 'dest': 'k@n' },
+	        { 'src': /(gg)/g, 'dest': 'g' },
+	        { 'src': /(@U)/g, 'dest': 'oU' },
+	        { 'src': /rr$/g, 'dest': 'r' },
+	        { 'src': /3r$/g, 'dest': '3:' },
+	        { 'src': /([iU]|([AO]:))@r$/g, 'dest': '$1@' },
+	        { 'src': /([^e])@r/g, 'dest': '$1:3' },
+	        { 'src': /e@r$/g, 'dest': 'e@' },
+	        { 'src': /e@r([bdDfghklmnNprsStTvwjzZ])/g, 'dest': 'e@$1' },
+
+	        // edits arising from testing
+	        { 'src': /(\'k)+/g, 'dest': 'k\'' },  
+	        { 'src': /(\ː)+/g, 'dest': ':' },
+	        { 'src': /(\:)+/g, 'dest': ':' },      
+	        { 'src': /(ᵻ)/g, 'dest': 'I' },
+	        { 'src': /(ɜ)/g, 'dest': '3' },  
+	        { 'src': /(ɔ)/g, 'dest': 'O' },  
+
+	        // feedback from formantzero via r/linguistics
+	        { 'src': /\u0361(.)/g, 'dest': '$1\'' },  
+	        { 'src': /3$/g, 'dest': 'R' }
+	      ];
+
+	      for (var i = 0; i < mappings.length; i++) {
+	        uipa = uipa.replace(mappings[i].src, mappings[i].dest);
+	        //console.log(mappings[i].src + uipa);
+	      }
+	      console.log(uipa);
+	      spoken = meSpeak.speak('[['+uipa+']]', { 'rawdata': 'mime' });
+	      if (spoken == null) {
+	        alert("An error occurred: speaking failed.");
+	      }
+	      meSpeak.play(spoken);
+	    }
+		window.onload = TextToIPA.loadDict('lib/ipadict.txt');
+ 	</script>
+ 	<!--script src="js/script.js"><-/script-->
+ 	<!--http://longmanhomeusa.com/blog/how-the-international-phonetic-alphabet-can-help-us-teach-pronunciation/
+ 		https://en.wikipedia.org/wiki/File:IPA_vowel_chart_2005.png-->
+</div>
+</body>
+</html>
